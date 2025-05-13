@@ -44,7 +44,7 @@ const Payment = () => {
       amount: Number(course?.amount.replace(/[^0-9.-]+/g, "")), // ← fixed
     };
 
-    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+    const API_URL = import.meta.env.VITE_API_URL || "https://mern-stack-final-server.onrender.com";
 
     fetch(`${API_URL}/api/enrollments`, {
       method: "POST",
