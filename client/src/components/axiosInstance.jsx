@@ -3,7 +3,7 @@ import axios from 'axios';
 
 
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000',  // Default to localhost if no VITE_API_URL
+  baseURL: import.meta.env.VITE_API_URL || 'https://mern-stack-final-server.onrender.com',  // Default to localhost if no VITE_API_URL
   headers: {
     'Content-Type': 'application/json',
   },
