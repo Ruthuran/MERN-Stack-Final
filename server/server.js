@@ -35,7 +35,9 @@ app.use((err, req, res, next) => {
   console.error('Error:', err.stack || err.message);
   res.status(500).json({ message: 'Something went wrong' });
 });
-
+app.get('/',(req,res)=>{
+    res.send('API WORKING')
+})
 // Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
