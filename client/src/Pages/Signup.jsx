@@ -57,7 +57,7 @@ const Signup = () => {
     const formattedEmail = email.trim().toLowerCase();
 
     const API_URL = `${
-      import.meta.env.VITE_SERVER_URL || "http://localhost:5000"
+      import.meta.env.VITE_SERVER_URL || "https://mern-stack-final-server.onrender.com"
     }/api/auth/signup`;
 
     try {
