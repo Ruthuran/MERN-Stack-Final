@@ -17,7 +17,10 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: 'https://mern-stack-final-client.onrender.com',
+  credentials: true
+}));
 
 // Connect to MongoDB
 connectDB();
