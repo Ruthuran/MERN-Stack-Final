@@ -18,7 +18,7 @@ axiosInstance.interceptors.request.use(
         const decodedToken = jwtDecode(token);
         const tokenExpiry = decodedToken.exp * 1000;
         if (tokenExpiry > Date.now()) {
-          config.headers['Authorization'] = Bearer ${token}; // Corrected line
+         config.headers['Authorization'] = `Bearer ${token}`;  
         } else {
           localStorage.removeItem('token');
           localStorage.removeItem('ruthenix_user');
