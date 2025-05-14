@@ -1,15 +1,15 @@
 import axios from 'axios';
-import { jwtDecode } from 'jwt-decode'; // Corrected import
+import { jwtDecode } from 'jwt-decode';
 
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'https://mern-stack-final-server.onrender.com',
+  baseURL: 'https://mern-stack-final-server.onrender.com', // Or http://localhost:5000 for local
   headers: {
     'Content-Type': 'application/json',
   },
   timeout: 10000,
+  withCredentials: true, // Optional if using cookies
 });
 
-// Attach token if available and valid
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -18,7 +18,7 @@ axiosInstance.interceptors.request.use(
         const decodedToken = jwtDecode(token);
         const tokenExpiry = decodedToken.exp * 1000;
         if (tokenExpiry > Date.now()) {
-       config.headers['Authorization'] = `Bearer ${token}`;  
+          config.headers['Authorization'] = Bearer ${token}; // Corrected line
         } else {
           localStorage.removeItem('token');
           localStorage.removeItem('ruthenix_user');
@@ -36,20 +36,18 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Global response error handling
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response) {
       const { status } = error.response;
-
       if (status === 401) {
-        console.error('Unauthorized access. Please log in again.');
+        console.error('Unauthorized access.');
         localStorage.removeItem('token');
         localStorage.removeItem('ruthenix_user');
         window.location.href = '/login';
       } else if (status === 500) {
-        console.error('Internal Server Error. Please try again later.');
+        console.error('Internal Server Error.');
       }
     }
     return Promise.reject(error);
