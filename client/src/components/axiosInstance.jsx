@@ -2,7 +2,7 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode'; // Corrected import
 
 const axiosInstance = axios.create({
-  baseURL: 'https://mern-stack-final-server.onrender.com',  // Fixed backend URL
+  baseURL: import.meta.env.VITE_API_URL || 'https://mern-stack-final-server.onrender.com',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -15,10 +15,10 @@ axiosInstance.interceptors.request.use(
     const token = localStorage.getItem('token');
     if (token) {
       try {
-        const decodedToken = jwtDecode(token); // Corrected usage
-        const tokenExpiry = decodedToken.exp * 1000; // to ms
+        const decodedToken = jwtDecode(token);
+        const tokenExpiry = decodedToken.exp * 1000;
         if (tokenExpiry > Date.now()) {
-          config.headers['Authorization'] = `Bearer ${token}`;
+          config.headers['Authorization'] = Bearer ${token};
         } else {
           localStorage.removeItem('token');
           localStorage.removeItem('ruthenix_user');
