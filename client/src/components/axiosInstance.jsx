@@ -1,5 +1,5 @@
 import axios from 'axios';
-import jwt_decode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode'; // Corrected import
 
 const axiosInstance = axios.create({
   baseURL: 'https://mern-stack-final-server.onrender.com',  // Fixed backend URL
@@ -15,7 +15,7 @@ axiosInstance.interceptors.request.use(
     const token = localStorage.getItem('token');
     if (token) {
       try {
-        const decodedToken = jwt_decode(token);
+        const decodedToken = jwtDecode(token); // Corrected usage
         const tokenExpiry = decodedToken.exp * 1000; // to ms
         if (tokenExpiry > Date.now()) {
           config.headers['Authorization'] = `Bearer ${token}`;
@@ -36,7 +36,7 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Global response error handlng
+// Global response error handling
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
