@@ -20,7 +20,7 @@ const validateObjectId = (req, res, next) => {
 };
 
 /** GET: All assignments */
-router.get('/', async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const assignments = await Assignment.find()
       .populate('assignedBy', 'name')
