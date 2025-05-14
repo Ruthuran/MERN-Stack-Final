@@ -41,8 +41,8 @@ app.use((err, req, res, next) => {
 app.get('/',(req,res)=>{
     res.send('API WORKING')
 })
-// Start Server
+// Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log( Server is running on port ${PORT});
+  console.log(🚀 Server is running on port ${PORT});
 });
