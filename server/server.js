@@ -12,29 +12,27 @@ import assignmentRoutes from './routes/assignments.js';
 import connectDB from './db.js';
 
 dotenv.config();
-
 const app = express();
+
+// Connect to DB
+connectDB();
 
 // Middleware
 app.use(express.json());
 
 // CORS Configuration
 const allowedOrigins = [process.env.FRONTEND_URL];
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    credentials: true,
-  })
-);
-
-// DB Connection
-connectDB();
+app.use(cors({
+  origin: function (origin, callback) {
+    console.log("Request from origin:", origin);
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -53,5 +51,5 @@ app.use((err, req, res, next) => {
 // Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(` Server is running on port ${PORT}`);
+  console.log(Server is running on port ${PORT});
 });
