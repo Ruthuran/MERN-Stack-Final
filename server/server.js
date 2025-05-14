@@ -6,9 +6,9 @@ import cors from 'cors';
 import authRoutes from './routes/authRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import courseRoutes from './routes/courseRoutes.js';
-import studentRoutes from './routes/studentRoutes.js'; // ✅ Import student routes
+import studentRoutes from './routes/studentRoutes.js'; 
 import enrollmentRoutes from './routes/enrollments.js';
-import assignmentRoutes from './routes/assignments.js'; // ✅ Import assignment routes
+import assignmentRoutes from './routes/assignments.js'; 
 import connectDB from './db.js';
 
 dotenv.config();
