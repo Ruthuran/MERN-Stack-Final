@@ -9,7 +9,7 @@ const router = express.Router();
 
 // POST endpoint to add a new mentor with an assigned course
 router.post('/add-mentor', async (req, res) => {
-  const { name, email, password, courseId } = req.body;
+  const { name, email, password, course } = req.body;
 
   try {
     // Ensure the user is an admin
@@ -25,13 +25,13 @@ router.post('/add-mentor', async (req, res) => {
     }
 
     // Check if courseId is valid
-    if (courseId && !mongoose.Types.ObjectId.isValid(courseId)) {
+    if (courseId && !mongoose.Types.ObjectId.isValid(course)) {
       return res.status(400).json({ message: 'Invalid course ID.' });
     }
 
     // Check if the course exists
     if (courseId) {
-      const courseExists = await Course.findById(courseId);
+      const courseExists = await Course.findById(course);
       if (!courseExists) {
         return res.status(400).json({ message: 'Course not found.' });
       }
