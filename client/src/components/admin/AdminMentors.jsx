@@ -3,15 +3,15 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { BookOpenCheck, PencilLine } from "lucide-react";
 
-const API_URL =`${import.meta.env.VITE_SERVER_URL || "https://mern-stack-final-server.onrender.com"}/api/admin`;
-const COURSES_API_URL =`${import.meta.env.VITE_API_URL || "https://mern-stack-final-server.onrender.com"}/api/courses`;
+const API_URL = ${import.meta.env.VITE_SERVER_URL || "https://mern-stack-final-server.onrender.com"}/api/admin;
+const COURSES_API_URL = ${import.meta.env.VITE_API_URL || "https://mern-stack-final-server.onrender.com"}/api/courses;
 
 const AddMentorForm = () => {
   const [mentorData, setMentorData] = useState({
     name: "",
     email: "",
     password: "",
-    course: "",
+    courseid: "",
   });
   const [mentors, setMentors] = useState([]);
   const [courses, setCourses] = useState([]);
@@ -70,7 +70,7 @@ const AddMentorForm = () => {
         setMentors((prev) => [...prev, res.data]);
         toast.success("Mentor added");
       }
-      setMentorData({ name: "", email: "", password: "", course: "" });
+      setMentorData({ name: "", email: "", password: "", courseid: "" });
       setEditingMentor(null);
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to save mentor");
@@ -91,7 +91,7 @@ const AddMentorForm = () => {
 
   const handleCancel = () => {
     setEditingMentor(null);
-    setMentorData({ name: "", email: "", password: "", course: "" });
+    setMentorData({ name: "", email: "", password: "", courseid: "" });
   };
 
   // Helper to get course name by ID
