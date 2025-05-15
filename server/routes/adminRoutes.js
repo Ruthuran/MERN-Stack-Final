@@ -9,7 +9,7 @@ const router = express.Router();
 
 
 router.post('/add-mentor', async (req, res) => {
-  const { name, email, password, courseId } = req.body;
+  const { name, email, password, course: courseId } = req.body;
 
   try {
     const isAdmin = true; 
