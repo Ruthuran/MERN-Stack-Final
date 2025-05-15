@@ -3,8 +3,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { BookOpenCheck, PencilLine } from "lucide-react";
 
-const API_URL = ${import.meta.env.VITE_SERVER_URL || "https://mern-stack-final-server.onrender.com"}/api/admin;
-const COURSES_API_URL = ${import.meta.env.VITE_API_URL || "https://mern-stack-final-server.onrender.com"}/api/courses;
+const API_URL =`${import.meta.env.VITE_SERVER_URL || "https://mern-stack-final-server.onrender.com"}/api/admin`;
+const COURSES_API_URL =`${import.meta.env.VITE_API_URL || "https://mern-stack-final-server.onrender.com"}/api/courses`;
 
 const AddMentorForm = () => {
   const [mentorData, setMentorData] = useState({
