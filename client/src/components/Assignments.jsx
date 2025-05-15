@@ -42,7 +42,7 @@ const Assignments = () => {
 
     try {
       const res = await axios.post(
-       https://mern-stack-final-server.onrender.com/api/assignments/submit/${assignmentId},
+       `https://mern-stack-final-server.onrender.com/api/assignments/submit/${assignmentId}`,
         {
           link: assignmentLinks[assignmentId], // Just send the link here
           studentId, // Using the dynamically fetched studentId
