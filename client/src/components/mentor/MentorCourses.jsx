@@ -31,9 +31,9 @@ const MentorCourses = () => {
 
     try {
       setLoading(true);
-      const { data } = await axios.get(
-        `http://localhost:5000/api/courses?mentorId=${mentorId}`
-      );
+     const { data } = await axios.get(
+  `https://mern-stack-final-server.onrender.com/api/courses?mentorId=${mentorId}`
+);
       if (data && data.length > 0) {
         setCourses(data);
         setError("");
@@ -78,10 +78,10 @@ const MentorCourses = () => {
     if (!selectedCourse) return;
     setIsSaving(true);
     try {
-      await axios.put(
-        `http://localhost:5000/api/courses/${selectedCourse._id}/syllabus`,
-        { mentorId, syllabus }
-      );
+     await axios.put(
+  `https://mern-stack-final-server.onrender.com/api/courses/${selectedCourse._id}/syllabus`,
+  { mentorId, syllabus }
+);
       alert("Syllabus updated!");
       setIsModalOpen(false);
       fetchMentorCourses();
