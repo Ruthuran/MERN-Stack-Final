@@ -1,37 +1,33 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
 import User from '../models/user.js';
-import Course from '../models/Course.js';  // Import the Course model
-import mongoose from 'mongoose'; // Required for ObjectId validation
-// import { protect, admin } from '../middleware/authMiddleware.js'; // Add your auth middleware if needed
+import Course from '../models/Course.js'; 
+import mongoose from 'mongoose'; 
+
 
 const router = express.Router();
 
-// POST endpoint to add a new mentor with an assigned course
+
 router.post('/add-mentor', async (req, res) => {
-  const { name, email, password, courseid } = req.body;
+  const { name, email, password, courseId } = req.body;
 
   try {
-    // Ensure the user is an admin
-    const isAdmin = true; // Replace with real admin check, use auth middleware
+    const isAdmin = true; 
     if (!isAdmin) {
       return res.status(403).json({ message: 'You are not authorized to add mentors.' });
     }
 
-    // Check if mentor already exists
     const existingMentor = await User.findOne({ email });
     if (existingMentor) {
       return res.status(400).json({ message: 'Mentor already exists.' });
     }
 
-    // Check if courseId is valid
-    if (courseId && !mongoose.Types.ObjectId.isValid(courseid)) {
+    if (courseId && !mongoose.Types.ObjectId.isValid(courseId)) {
       return res.status(400).json({ message: 'Invalid course ID.' });
     }
 
-    // Check if the course exists
     if (courseId) {
-      const courseExists = await Course.findById(courseid);
+      const courseExists = await Course.findById(courseId);
       if (!courseExists) {
         return res.status(400).json({ message: 'Course not found.' });
       }
@@ -43,7 +39,7 @@ router.post('/add-mentor', async (req, res) => {
       email,
       password: hashedPassword,
       role: 'mentor',
-      course: courseid || null,
+      course: courseId || null,
     });
 
     await newMentor.save();
@@ -55,14 +51,12 @@ router.post('/add-mentor', async (req, res) => {
   }
 });
 
-// PUT endpoint to update mentor information
 router.put('/edit-mentor/:id', async (req, res) => {
   const { name, email, password, course } = req.body;
   const mentorId = req.params.id;
 
   try {
-    // Ensure the user is an admin
-    const isAdmin = true; // Replace with real admin check, use auth middleware
+    const isAdmin = true; 
     if (!isAdmin) {
       return res.status(403).json({ message: 'You are not authorized to edit mentors.' });
     }
@@ -76,7 +70,6 @@ router.put('/edit-mentor/:id', async (req, res) => {
     if (email) mentorToUpdate.email = email;
 
     if (course) {
-      // Check if the courseId is valid (must exist in the Course collection)
       if (!mongoose.Types.ObjectId.isValid(course)) {
         return res.status(400).json({ message: 'Invalid course ID.' });
       }
@@ -102,17 +95,13 @@ router.put('/edit-mentor/:id', async (req, res) => {
   }
 });
 
-// GET endpoint to fetch all mentors
 router.get('/get-mentors', async (req, res) => {
   try {
-    // Fetch all mentors and populate their course data
     const mentors = await User.find({ role: 'mentor' }).populate('course');
 
     if (mentors.length === 0) {
       return res.status(404).json({ message: 'No mentors found.' });
     }
-
-    // Return mentors with course name or 'None' if no course assigned
     const mentorsWithCourse = mentors.map((mentor) => ({
       ...mentor.toObject(),
       course: mentor.course ? mentor.course.name : 'None',
