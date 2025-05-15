@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+[15:37, 15/05/2025] Jain Cars: import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { BookOpenCheck, PencilLine } from "lucide-react";
@@ -17,18 +17,38 @@ const AddMentorForm = () => {
   const [courses, setCourses] = useState([]);
   const [editingMentor, setEditingMentor] = useState(null);
   const [loading, setLoading] = useState(false);
+  const […
+[15:38, 15/05/2025] Jain Cars: import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { BookOpenCheck, PencilLine } from "lucide-react";
+
+const API_URL = ${import.meta.env.VITE_SERVER_URL || "https://mern-stack-final-server.onrender.com"}/api/admin;
+const COURSES_API_URL = ${import.meta.env.VITE_API_URL || "https://mern-stack-final-server.onrender.com"}/api/courses;
+
+const AddMentorForm = () => {
+  const [mentorData, setMentorData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    course: "",
+  });
+  const [mentors, setMentors] = useState([]);
+  const [courses, setCourses] = useState([]);
+  const [editingMentor, setEditingMentor] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [loadingCourses, setLoadingCourses] = useState(true);
 
   useEffect(() => {
     const fetchMentors = async () => {
       try {
-        const res = await axios.get(`${API_URL}/get-mentors`);
+        const res = await axios.get(${API_URL}/get-mentors);
         setMentors(res.data);
       } catch {
         toast.error("Failed to load mentors");
       }
     };
-  
+
     const fetchCourses = async () => {
       try {
         const res = await axios.get(COURSES_API_URL);
@@ -37,14 +57,14 @@ const AddMentorForm = () => {
         console.error("Error fetching courses:", err);
         toast.error("Error fetching courses");
       } finally {
-        setLoadingCourses(false);  // Set loadingCourses to false after fetching is done
+        setLoadingCourses(false);
       }
     };
-  
+
     fetchMentors();
     fetchCourses();
   }, []);
-  
+
   const handleChange = (e) => {
     setMentorData({ ...mentorData, [e.target.name]: e.target.value });
   };
@@ -60,13 +80,13 @@ const AddMentorForm = () => {
     try {
       const payload = { ...mentorData };
       if (editingMentor) {
-        const res = await axios.put(`${API_URL}/edit-mentor/${editingMentor._id}`, payload);
+        const res = await axios.put(${API_URL}/edit-mentor/${editingMentor._id}, payload);
         setMentors((prev) =>
           prev.map((m) => (m._id === editingMentor._id ? res.data : m))
         );
         toast.success("Mentor updated");
       } else {
-        const res = await axios.post(`${API_URL}/add-mentor`, payload);
+        const res = await axios.post(${API_URL}/add-mentor, payload);
         setMentors((prev) => [...prev, res.data]);
         toast.success("Mentor added");
       }
@@ -92,6 +112,12 @@ const AddMentorForm = () => {
   const handleCancel = () => {
     setEditingMentor(null);
     setMentorData({ name: "", email: "", password: "", course: "" });
+  };
+
+  // Helper to get course name by ID
+  const getCourseName = (courseId) => {
+    const course = courses.find((c) => c._id === courseId);
+    return course ? course.title || course.name || "Untitled Course" : "None";
   };
 
   return (
@@ -132,31 +158,25 @@ const AddMentorForm = () => {
               required
             />
           )}
-         <select
-  name="course"
-  value={mentorData.course || ""}
-  onChange={handleChange}
-  className="p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500"
->
-  <option value="">Assign Course</option>
-  {loadingCourses ? (
-    <option disabled>Loading courses...</option>
-  ) : courses.length > 0 ? (
-    courses.map((course) => (
-      <option key={course._id} value={course._id}>
-        {course.title || course.name || "Untitled Course"}
-      </option>
-    ))
-  ) : (
-    <option disabled>No courses available</option>
-  )}
-  {/* Default "None" option */}
-  {mentorData.course === "" && (
-    <option value="" disabled selected>
-      None
-    </option>
-  )}
-</select>
+          <select
+            name="course"
+            value={mentorData.course || ""}
+            onChange={handleChange}
+            className="p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500"
+          >
+            <option value="">Assign Course</option>
+            {loadingCourses ? (
+              <option disabled>Loading courses...</option>
+            ) : courses.length > 0 ? (
+              courses.map((course) => (
+                <option key={course._id} value={course._id}>
+                  {course.title || course.name || "Untitled Course"}
+                </option>
+              ))
+            ) : (
+              <option disabled>No courses available</option>
+            )}
+          </select>
 
           <div className="md:col-span-2 flex gap-4 mt-2">
             <button
@@ -187,17 +207,18 @@ const AddMentorForm = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {mentors.map((mentor) => (
-              <div key={mentor._id} className="border border-gray-200 rounded-xl p-4 shadow-sm bg-gradient-to-tr from-gray-50 to-white">
+              <div
+                key={mentor._id}
+                className="border border-gray-200 rounded-xl p-4 shadow-sm bg-gradient-to-tr from-gray-50 to-white"
+              >
                 <h4 className="text-lg font-bold text-indigo-800">{mentor.name}</h4>
                 <p className="text-sm text-gray-600">{mentor.email}</p>
                 <p className="text-sm mt-1 text-gray-500">
                   Assigned Course:{" "}
                   <span className="font-medium text-gray-800">
-                    {mentor.course || "None"}  {/* Will display the course name if populated */}
+                    {getCourseName(mentor.course)}
                   </span>
                 </p>
-
-
 
                 <div className="mt-3 flex gap-4">
                   <button
