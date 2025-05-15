@@ -11,7 +11,7 @@ const AddMentorForm = () => {
     name: "",
     email: "",
     password: "",
-    courseid: "",
+    course: "",
   });
   const [mentors, setMentors] = useState([]);
   const [courses, setCourses] = useState([]);
@@ -28,7 +28,7 @@ const AddMentorForm = () => {
         toast.error("Failed to load mentors");
       }
     };
-
+  
     const fetchCourses = async () => {
       try {
         const res = await axios.get(COURSES_API_URL);
@@ -37,14 +37,14 @@ const AddMentorForm = () => {
         console.error("Error fetching courses:", err);
         toast.error("Error fetching courses");
       } finally {
-        setLoadingCourses(false);
+        setLoadingCourses(false);  // Set loadingCourses to false after fetching is done
       }
     };
-
+  
     fetchMentors();
     fetchCourses();
   }, []);
-
+  
   const handleChange = (e) => {
     setMentorData({ ...mentorData, [e.target.name]: e.target.value });
   };
@@ -70,7 +70,7 @@ const AddMentorForm = () => {
         setMentors((prev) => [...prev, res.data]);
         toast.success("Mentor added");
       }
-      setMentorData({ name: "", email: "", password: "", courseid: "" });
+      setMentorData({ name: "", email: "", password: "", course: "" });
       setEditingMentor(null);
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to save mentor");
@@ -91,13 +91,7 @@ const AddMentorForm = () => {
 
   const handleCancel = () => {
     setEditingMentor(null);
-    setMentorData({ name: "", email: "", password: "", courseid: "" });
-  };
-
-  // Helper to get course name by ID
-  const getCourseName = (courseId) => {
-    const course = courses.find((c) => c._id === courseId);
-    return course ? course.title || course.name || "Untitled Course" : "None";
+    setMentorData({ name: "", email: "", password: "", course: "" });
   };
 
   return (
@@ -138,25 +132,31 @@ const AddMentorForm = () => {
               required
             />
           )}
-          <select
-            name="course"
-            value={mentorData.course || ""}
-            onChange={handleChange}
-            className="p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500"
-          >
-            <option value="">Assign Course</option>
-            {loadingCourses ? (
-              <option disabled>Loading courses...</option>
-            ) : courses.length > 0 ? (
-              courses.map((course) => (
-                <option key={course._id} value={course._id}>
-                  {course.title || course.name || "Untitled Course"}
-                </option>
-              ))
-            ) : (
-              <option disabled>No courses available</option>
-            )}
-          </select>
+         <select
+  name="course"
+  value={mentorData.course || ""}
+  onChange={handleChange}
+  className="p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500"
+>
+  <option value="">Assign Course</option>
+  {loadingCourses ? (
+    <option disabled>Loading courses...</option>
+  ) : courses.length > 0 ? (
+    courses.map((course) => (
+      <option key={course._id} value={course._id}>
+        {course.title || course.name || "Untitled Course"}
+      </option>
+    ))
+  ) : (
+    <option disabled>No courses available</option>
+  )}
+  {/* Default "None" option */}
+  {mentorData.course === "" && (
+    <option value="" disabled selected>
+      None
+    </option>
+  )}
+</select>
 
           <div className="md:col-span-2 flex gap-4 mt-2">
             <button
@@ -187,18 +187,17 @@ const AddMentorForm = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {mentors.map((mentor) => (
-              <div
-                key={mentor._id}
-                className="border border-gray-200 rounded-xl p-4 shadow-sm bg-gradient-to-tr from-gray-50 to-white"
-              >
+              <div key={mentor._id} className="border border-gray-200 rounded-xl p-4 shadow-sm bg-gradient-to-tr from-gray-50 to-white">
                 <h4 className="text-lg font-bold text-indigo-800">{mentor.name}</h4>
                 <p className="text-sm text-gray-600">{mentor.email}</p>
                 <p className="text-sm mt-1 text-gray-500">
                   Assigned Course:{" "}
                   <span className="font-medium text-gray-800">
-                    {getCourseName(mentor.course)}
+                    {mentor.course || "None"}  {/* Will display the course name if populated */}
                   </span>
                 </p>
+
+
 
                 <div className="mt-3 flex gap-4">
                   <button
