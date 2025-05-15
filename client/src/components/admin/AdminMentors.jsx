@@ -3,26 +3,6 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { BookOpenCheck, PencilLine } from "lucide-react";
 
-const API_URL = `${import.meta.env.VITE_SERVER_URL || "https://mern-stack-final-server.onrender.com"}/api/admin`;
-const COURSES_API_URL = `${import.meta.env.VITE_API_URL || "https://mern-stack-final-server.onrender.com"}/api/courses`;
-
-const AddMentorForm = () => {
-  const [mentorData, setMentorData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    course: "",
-  });
-  const [mentors, setMentors] = useState([]);
-  const [courses, setCourses] = useState([]);
-  const [editingMentor, setEditingMentor] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const […
-[15:38, 15/05/2025] Jain Cars: import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { toast } from "react-toastify";
-import { BookOpenCheck, PencilLine } from "lucide-react";
-
 const API_URL = ${import.meta.env.VITE_SERVER_URL || "https://mern-stack-final-server.onrender.com"}/api/admin;
 const COURSES_API_URL = ${import.meta.env.VITE_API_URL || "https://mern-stack-final-server.onrender.com"}/api/courses;
 
