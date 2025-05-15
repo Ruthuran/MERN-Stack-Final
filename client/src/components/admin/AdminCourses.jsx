@@ -46,7 +46,7 @@ const AdminCourses = () => {
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`http://localhost:5000/api/courses/${editingCourse._id}`, formData);
+      await axios.put(`${import.meta.env.VITE_API_URL}/api/courses/${editingCourse._id}`, formData);
       toast.success('Course updated successfully');
       setEditingCourse(null);
       fetchCourses();
