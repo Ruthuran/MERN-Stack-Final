@@ -11,7 +11,7 @@ const MentorDashboard = () => {
   // Function to fetch enrollments
   const fetchEnrollments = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/enrollments");
+     const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/enrollments`);
       setStudents(res.data.enrollments); // Assuming 'enrollments' is the array of students in the response
     } catch (err) {
       console.error(err);
