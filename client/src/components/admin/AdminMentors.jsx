@@ -22,7 +22,7 @@ const AddMentorForm = () => {
   useEffect(() => {
     const fetchMentors = async () => {
       try {
-        const res = await axios.get(${API_URL}/get-mentors);
+        const res = await axios.get(`${API_URL}/get-mentors`);
         setMentors(res.data);
       } catch {
         toast.error("Failed to load mentors");
@@ -60,13 +60,13 @@ const AddMentorForm = () => {
     try {
       const payload = { ...mentorData };
       if (editingMentor) {
-        const res = await axios.put(${API_URL}/edit-mentor/${editingMentor._id}, payload);
+        const res = await axios.put(`${API_URL}/edit-mentor/${editingMentor._id}`, payload);
         setMentors((prev) =>
           prev.map((m) => (m._id === editingMentor._id ? res.data : m))
         );
         toast.success("Mentor updated");
       } else {
-        const res = await axios.post(${API_URL}/add-mentor, payload);
+        const res = await axios.post(`${API_URL}/add-mentor`, payload);
         setMentors((prev) => [...prev, res.data]);
         toast.success("Mentor added");
       }
