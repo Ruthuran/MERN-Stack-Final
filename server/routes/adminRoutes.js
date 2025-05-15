@@ -43,7 +43,7 @@ router.post('/add-mentor', async (req, res) => {
       email,
       password: hashedPassword,
       role: 'mentor',
-      course: courseId || null,
+      course: course || null,
     });
 
     await newMentor.save();
