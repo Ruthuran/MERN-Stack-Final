@@ -54,7 +54,7 @@ router.get('/submissions', async (req, res) => {
   }
 });
 
-// Get submissions by student (via query param)
+// Get submissions by studentId
 router.get('/submissions/by-student', async (req, res) => {
   try {
     const { studentId } = req.query;
@@ -81,20 +81,7 @@ router.get('/submissions/by-student', async (req, res) => {
   }
 });
 
-// NEW: Get submissions by studentId via param (used in frontend)
-router.get('/submissions/:studentId', validateObjectId, async (req, res) => {
-  const { studentId } = req.params;
-
-  try {
-    const submissions = await Submission.find({ studentId }).select('assignmentId');
-    res.status(200).json(submissions);
-  } catch (error) {
-    console.error('Error fetching submissions by studentId:', error);
-    res.status(500).json({ message: 'Error fetching submissions', error: error.message });
-  }
-});
-
-// Create new assignment
+// Create a new assignment
 router.post('/create', async (req, res) => {
   try {
     const { courseId, title, description, deadline, fileUrl, assignedBy } = req.body;
@@ -116,7 +103,7 @@ router.post('/create', async (req, res) => {
   }
 });
 
-// Submit assignment
+// Submit an assignment
 router.post('/submit/:assignmentId', validateObjectId, async (req, res) => {
   try {
     const { link, studentId } = req.body;
@@ -140,15 +127,14 @@ router.post('/submit/:assignmentId', validateObjectId, async (req, res) => {
 
     await newSubmission.save();
 
-    // Do not update global assignment status as 'Completed' for all
     await Assignment.findByIdAndUpdate(
       assignmentId,
-      { $push: { submissions: newSubmission._id } },
+      { $push: { submissions: newSubmission._id }, status: 'Completed' },
       { new: true }
     );
 
     res.status(201).json({
-      message: 'Submission successful',
+      message: 'Submission successful and assignment marked as Completed',
       submission: newSubmission,
     });
   } catch (error) {
@@ -157,7 +143,7 @@ router.post('/submit/:assignmentId', validateObjectId, async (req, res) => {
   }
 });
 
-// Review submission by assignmentId
+// Review a submission by assignmentId
 router.put('/review-by-assignment/:assignmentId', validateObjectId, async (req, res) => {
   const { assignmentId } = req.params;
   const { grade, feedback } = req.body;
@@ -191,7 +177,7 @@ router.put('/review-by-assignment/:assignmentId', validateObjectId, async (req, 
   }
 });
 
-// Get assignments created by a specific mentor
+// Get assignments created by a mentor
 router.get('/mentor', async (req, res) => {
   try {
     const { mentorId } = req.query;
