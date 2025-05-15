@@ -57,12 +57,12 @@ const CourseDetails = () => {
   useEffect(() => {
     const fetchCourseAndCheckEnrollment = async () => {
       try {
-        const courseRes = await fetch(`http://localhost:5000/api/courses/${id}`);
+        const courseRes = await fetch(`https://mern-stack-final-server.onrender.com/api/courses/${id}`);
         const courseData = await courseRes.json();
         setCourse(courseData);
 
         if (studentId) {
-          const enrollRes = await fetch(`http://localhost:5000/api/enrollments/student/${studentId}`);
+          const enrollRes = await fetch(`https://mern-stack-final-server.onrender.com/api/enrollments/student/${studentId}`);
           const enrollData = await enrollRes.json();
           if (Array.isArray(enrollData)) {
             const isEnrolled = enrollData.some(e => e.course === id || e.name === courseData.name);
