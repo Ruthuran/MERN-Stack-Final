@@ -3,8 +3,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { BookOpenCheck, PencilLine } from "lucide-react";
 
-const API_URL = `${import.meta.env.VITE_SERVER_URL || "http://localhost:5000"}/api/admin`;
-const COURSES_API_URL = `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/courses`;
+const API_URL = `${import.meta.env.VITE_SERVER_URL || "https://mern-stack-final-server.onrender.com"}/api/admin`;
+const COURSES_API_URL = `${import.meta.env.VITE_API_URL || "https://mern-stack-final-server.onrender.com"}/api/courses`;
 
 const AddMentorForm = () => {
   const [mentorData, setMentorData] = useState({
@@ -31,7 +31,7 @@ const AddMentorForm = () => {
   
     const fetchCourses = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/courses");
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/courses`);
         setCourses(res.data);
       } catch (err) {
         console.error("Error fetching courses:", err);
