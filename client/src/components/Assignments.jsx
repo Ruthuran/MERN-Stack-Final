@@ -120,7 +120,7 @@ const Assignments = () => {
             >
               <h2 className="text-xl font-bold text-indigo-600 mb-2">{title}</h2>
               <p className="text-gray-500 mb-1">
-                {description && ${description.slice(0, 100)}...}
+                {description && `${description.slice(0, 100)}...`}
               </p>
               <p className="text-gray-500 mb-2">
                 Due: {new Date(deadline).toLocaleDateString()}
