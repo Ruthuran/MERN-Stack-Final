@@ -18,7 +18,7 @@ const Assignments = () => {
   useEffect(() => {
     const fetchAssignments = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/assignments");
+       const res = await axios.get("https://mern-stack-final-server.onrender.com/api/assignments");
         setAssignments(res.data.data); // Ensure the data field is correct
       } catch (err) {
         console.error("Failed to fetch assignments", err);
@@ -42,7 +42,7 @@ const Assignments = () => {
 
     try {
       const res = await axios.post(
-        `http://localhost:5000/api/assignments/submit/${assignmentId}`,
+       `https://mern-stack-final-server.onrender.com/api/assignments/submit/${assignmentId}`,
         {
           link: assignmentLinks[assignmentId], // Just send the link here
           studentId, // Using the dynamically fetched studentId
