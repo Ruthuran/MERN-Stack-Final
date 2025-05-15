@@ -12,7 +12,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/students");
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/students`);
         setStudents(res.data);
       } catch (error) {
         setError("Error fetching students.");
